@@ -18,5 +18,10 @@ public class RuleService {
 		return rr.findAll();
 	}
 	
+	public void save(Rule rule) {
+		rr.save(rule);
+	}
+	
+	
 }
 

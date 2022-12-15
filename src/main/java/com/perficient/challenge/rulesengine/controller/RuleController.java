@@ -26,4 +26,9 @@ public class RuleController {
 	public List<Rule> getRule(){
 		return rulesService.findAll();
 	}
+	
+	@PostMapping("/addRules")
+	public void addRule(@RequestBody Rule rule) {
+		rulesService.save(rule);
+	}
 }
