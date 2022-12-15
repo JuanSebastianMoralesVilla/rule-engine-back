@@ -5,13 +5,9 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
-import com.perficient.challenge.rulesengine.model.Rule;
+import com.perficient.challenge.rulesengine.model.Transaction;
 
 @Repository
-public interface RulesRepository extends MongoRepository<Rule, String>{
-
-	
-	public List<Rule> findAll();
+public interface TransactionRepository extends MongoRepository<Transaction, String>{
 	
 }
