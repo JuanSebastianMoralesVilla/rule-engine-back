@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Transactions")
+@Document(collection = "trans")
 public class Transaction {
 
 	@Id
@@ -28,5 +28,10 @@ public class Transaction {
 
 	public void setData(Map<String, String> data) {
 		this.data = data;
+	}
+	
+	@Override
+	public String toString() {
+		return data.get("first_name");
 	}
 }
