@@ -13,22 +13,26 @@ import org.springframework.stereotype.Component;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.perficient.challenge.rulesengine.dao.interfaces.RulesDao;
 import com.perficient.challenge.rulesengine.model.Rule;
 
 @Component
-public class RulesDaoImp {
+public class RulesDaoImp implements RulesDao{
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
+	@Override
 	public void save(Rule rule) {
 		this.mongoTemplate.save(rule);
 	}
 	
+	@Override
 	public List<Rule> findAll() {
 		return this.mongoTemplate.findAll(Rule.class);
 	}
 	
+	@Override
 	public List<Rule> findPinned() {
 		
 		Query query = new Query();
@@ -37,6 +41,7 @@ public class RulesDaoImp {
 		return this.mongoTemplate.find(query, Rule.class);
 	}
 	
+	@Override
 	public List<Rule> findLastProcessed() {
 		
 		Query query = new Query();

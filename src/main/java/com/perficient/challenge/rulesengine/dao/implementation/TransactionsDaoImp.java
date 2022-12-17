@@ -13,15 +13,17 @@ import org.springframework.stereotype.Component;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.perficient.challenge.rulesengine.dao.interfaces.TransactionsDao;
 import com.perficient.challenge.rulesengine.model.Transaction;
 import com.perficient.challenge.rulesengine.mongodbtemplate.MongoDbTemplate;
 
 @Component
-public class TransactionsDaoImp {
+public class TransactionsDaoImp implements TransactionsDao{
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
+	@Override
 	public List<Transaction> findByRule(String column, String comparator, String value) {
 
 		StringBuilder customQuery = new StringBuilder();
@@ -43,12 +45,18 @@ public class TransactionsDaoImp {
 		return transactions;
 	}
 
+	@Override
 	public Set<String> getColumns() {
 		
 		Query query = new Query();
 		Transaction transaction = this.mongoTemplate.findOne(query, Transaction.class);
 		
 		return transaction.getData().keySet();
+	}
+
+	@Override
+	public List<Transaction> findAll() {
+		return this.mongoTemplate.findAll(Transaction.class);
 	}
 }
 
