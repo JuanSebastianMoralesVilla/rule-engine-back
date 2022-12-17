@@ -45,4 +45,11 @@ public class RuleProcesor {
 		return rawRule;
 	}
 	
+	public boolean verifyRule(String rawRule) {
+		
+		// TODO: Validations
+		
+		return true;
+	}
+	
 }

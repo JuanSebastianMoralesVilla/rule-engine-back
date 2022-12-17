@@ -24,6 +24,6 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 	@Query("{'data.?0': {$gte: 'data.?1'}}")
     List<Transaction> getGreaterNumericColumn(String column1, String column2);
 	
-	@Query("{'this.data.?0': {$lte: 'this.data.?1'}}")
+	@Query("{'.data.?0': {$lte: 'data.?1'}}")
     List<Transaction> getLowerNumericColumn(String column, String columnValue);
 }

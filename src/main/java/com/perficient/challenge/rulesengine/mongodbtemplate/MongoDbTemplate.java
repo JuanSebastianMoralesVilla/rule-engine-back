@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.perficient.challenge.rulesengine.model.Rule;
 import com.perficient.challenge.rulesengine.model.Transaction;
 
 @Component
 public class MongoDbTemplate {
 
 	@Autowired
-	MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 
 	public List<Transaction> executeCustomQuery(String customQuery) {
 
@@ -32,8 +33,8 @@ public class MongoDbTemplate {
 
 		Query query = Query.query(criteria);
 
-		List<Transaction> transactions = mongoTemplate.find(query, Transaction.class);
-		System.out.println("Custom -> "+transactions);
-		return transactions;
+		List<Transaction> documents = mongoTemplate.find(query, Transaction.class);
+		System.out.println("Custom -> "+documents);
+		return documents;
 	}
 }
