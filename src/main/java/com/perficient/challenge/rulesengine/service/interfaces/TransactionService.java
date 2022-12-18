@@ -9,4 +9,5 @@ public interface TransactionService {
 
 	public List<Transaction> findAll();
 	public Set<String> getColumns();
+	public List<Transaction> findByRule(String rule);
 }

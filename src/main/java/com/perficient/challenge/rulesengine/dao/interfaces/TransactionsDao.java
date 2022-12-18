@@ -8,6 +8,6 @@ import com.perficient.challenge.rulesengine.model.Transaction;
 public interface TransactionsDao {
 
 	public List<Transaction> findAll();
-	public List<Transaction> findByRule(String column, String comparator, String value);
+	public List<Transaction> findByRule(String customQuery);
 	public Set<String> getColumns();
 }

@@ -27,8 +27,15 @@ public class TransactionController {
 		return transactionService.findAll();
 	}
 	
-	@PostMapping("/columns")
+	@PostMapping("/findByRule")
+	public List<Transaction> findByRule(@RequestBody String rule){
+		List<Transaction> transactions = this.transactionService.findByRule(rule);
+		return transactions;
+	}
+	
+	@GetMapping("/columns")
 	public Set<String> getColumns(){
 		return transactionService.getColumns();
 	}
+	
 }

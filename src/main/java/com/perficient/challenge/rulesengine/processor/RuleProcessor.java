@@ -2,6 +2,8 @@ package com.perficient.challenge.rulesengine.processor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.perficient.challenge.rulesengine.dao.implementation.TransactionsDaoImp;
 
 @Component
-public class RuleProcesor {
+public class RuleProcessor {
 
 	@Autowired
 	TransactionsDaoImp transactionDao;
@@ -19,7 +21,7 @@ public class RuleProcesor {
 	
 	private Map<String, String> columnMap ;
 		   
-	public RuleProcesor(TransactionsDaoImp transactionDao, Map<String, String> columnMap) {
+	public RuleProcessor(TransactionsDaoImp transactionDao, Map<String, String> columnMap) {
 		
 		this.transactionDao = transactionDao;
 		this.logicMap = new HashMap<String,String>() {{
@@ -47,7 +49,11 @@ public class RuleProcesor {
 	
 	public boolean verifyRule(String rawRule) {
 		
-		// TODO: Validations
+		Pattern pattern = Pattern.compile("\\\\(([^)]+)\\\\)");
+	    Matcher matcher = pattern.matcher(rawRule);
+	    if (matcher.find()) {
+	      System.out.println(matcher.group(1));
+	    }
 		
 		return true;
 	}

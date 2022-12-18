@@ -15,7 +15,7 @@ import com.perficient.challenge.rulesengine.dao.implementation.RulesDaoImp;
 import com.perficient.challenge.rulesengine.dao.implementation.TransactionsDaoImp;
 import com.perficient.challenge.rulesengine.model.Rule;
 import com.perficient.challenge.rulesengine.mongodbtemplate.MongoDbTemplate;
-import com.perficient.challenge.rulesengine.processor.RuleProcesor;
+import com.perficient.challenge.rulesengine.processor.RuleProcessor;
 import com.perficient.challenge.rulesengine.repository.RulesRepository;
 import com.perficient.challenge.rulesengine.repository.TransactionRepository;
 
@@ -31,11 +31,14 @@ public class RulesEngineApplication {
 	
 	
 	@Bean
-	public CommandLineRunner add(TransactionsDaoImp transactiondao, RuleProcesor rule, RulesDaoImp rulesdao) {
+	public CommandLineRunner add(TransactionsDaoImp transactiondao, RuleProcessor rule, RulesDaoImp rulesdao) {
 		
 		return (args) -> {
 			
 			String ro = rule.processRule("((first_name=='Nev')AND(amount>=100))OR(accepted==true)");
+			
+			rule.verifyRule("((first_name=='Nev')AND(amount>=100))OR(accepted==true)");
+			
 			//mongo.executeCustomQuery(r);
 			
 			/*Rule r = new Rule();
