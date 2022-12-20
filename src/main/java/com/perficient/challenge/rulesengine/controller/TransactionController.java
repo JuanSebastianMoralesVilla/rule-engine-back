@@ -39,7 +39,8 @@ public class TransactionController {
 	}
 	
 	@PostMapping("/findByRule")
-	public ResponseEntity<List<Transaction>> findByRule(@RequestBody String rule){
+	public ResponseEntity<List<Transaction>> findByRule(@RequestBody (required=false) String rule){
+	
 		Optional<List<Transaction>> transactions = this.transactionService.findByRule(rule);
 		if(transactions.isPresent())
 			return new ResponseEntity<List<Transaction>>(transactions.get(), HttpStatus.OK);

@@ -38,17 +38,24 @@ public class TransactionServiceImp implements TransactionService{
 	@Override
 	public Optional<List<Transaction>> findByRule(String rule) {
 		
+		if(rule == null)
+			return this.findAll();
+		
 		String formattedQuery = this.ruleProcessor.processRule(rule);
 		
 		List<Transaction> transactions;
 		if(formattedQuery.isBlank()) 
 			transactions = this.transactionDao.findAll();
-		else {
+		else 
 			transactions = this.transactionDao.findByRule(formattedQuery);
-			this.ruleService.save(rule);;
+		
+		Optional<List<Transaction>> transactionsOptional = Optional.ofNullable(transactions);
+		
+		if(transactionsOptional.isPresent() && !transactionsOptional.get().isEmpty()) {
+			this.ruleService.save(rule);
+			System.out.println("Guardó regla");
 		}
-	
-		return Optional.ofNullable(transactions);
+		return transactionsOptional;
 	}
 	
 }
