@@ -1,9 +1,12 @@
 package com.perficient.challenge.rulesengine.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,19 +26,34 @@ public class TransactionController {
 	private TransactionService transactionService;
 	
 	@GetMapping("/")
-	public List<Transaction> findAll(){
-		return transactionService.findAll();
+	public ResponseEntity<List<Transaction>> findAll(){
+		
+		Optional<List<Transaction>> transactions = transactionService.findAll();
+		
+		if(transactions.isEmpty())
+			return new ResponseEntity<List<Transaction>>(transactions.get(), HttpStatus.OK);
+		
+		return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping("/findByRule")
-	public List<Transaction> findByRule(@RequestBody String rule){
-		List<Transaction> transactions = this.transactionService.findByRule(rule);
-		return transactions;
+	public ResponseEntity<List<Transaction>> findByRule(@RequestBody String rule){
+		Optional<List<Transaction>> transactions = this.transactionService.findByRule(rule);
+		if(transactions.isEmpty())
+			return new ResponseEntity<List<Transaction>>(transactions.get(), HttpStatus.OK);
+		
+		return new ResponseEntity<List<Transaction>>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/columns")
-	public Set<String> getColumns(){
-		return transactionService.getColumns();
+	public ResponseEntity<Set<String>> getColumns(){
+		
+		Optional<Set<String>> columns = this.transactionService.getColumns();
+		
+		if(columns.isEmpty())
+			return new ResponseEntity<Set<String>>(columns.get(), HttpStatus.OK);
+		
+		return new ResponseEntity<Set<String>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

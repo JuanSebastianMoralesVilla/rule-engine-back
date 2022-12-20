@@ -24,6 +24,7 @@ public class TransactionsDaoImp implements TransactionsDao {
 
 	@Override
 	public List<Transaction> findByRule(String customQuery) {
+		
 		Criteria criteria = new Criteria() {
 			@Override
 			public Document getCriteriaObject() {

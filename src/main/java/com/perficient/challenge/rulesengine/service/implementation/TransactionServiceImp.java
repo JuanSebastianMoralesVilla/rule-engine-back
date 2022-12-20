@@ -1,6 +1,7 @@
 package com.perficient.challenge.rulesengine.service.implementation;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,29 @@ public class TransactionServiceImp implements TransactionService{
 	private RuleProcessor ruleProcessor;
 
 	@Override
-	public List<Transaction> findAll(){
-		return this.transactionDao.findAll();
+	public Optional<List<Transaction>> findAll(){
+		List<Transaction> transactions = this.transactionDao.findAll();
+		return Optional.ofNullable(transactions);
 	}
 
 	@Override
-	public Set<String> getColumns() {
-		return this.transactionDao.getColumns();
+	public Optional<Set<String>> getColumns() {
+		Set<String> columns = this.transactionDao.getColumns();
+		return Optional.ofNullable(columns);
 	}
 
 	@Override
-	public List<Transaction> findByRule(String rule) {
+	public Optional<List<Transaction>> findByRule(String rule) {
 		
 		String formattedQuery = this.ruleProcessor.processRule(rule);
-		List<Transaction> transactions = this.transactionDao.findByRule(formattedQuery);
+		
+		List<Transaction> transactions;
+		if(formattedQuery.isBlank()) 
+			transactions = this.transactionDao.findAll();
+		else
+			transactions = this.transactionDao.findByRule(formattedQuery);
 	
-		return transactions;
+		return Optional.ofNullable(transactions);
 	}
 	
 }

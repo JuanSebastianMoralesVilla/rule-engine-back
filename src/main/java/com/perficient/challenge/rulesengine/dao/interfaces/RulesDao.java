@@ -8,6 +8,5 @@ public interface RulesDao {
 
 	public void save(Rule rule);
 	public List<Rule> findAll();
-	public List<Rule> findPinned();
 	public List<Rule> findLastProcessed();
 }
