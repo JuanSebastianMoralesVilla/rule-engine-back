@@ -13,12 +13,15 @@ public class Rule {
 	private boolean pinned;
 	
 	
-	
 	public Rule(String id, String rule, Long date, boolean pinned) {
 		this.id = id;
 		this.rule = rule;
 		this.date = date;
 		this.pinned = pinned;
+	}
+
+	public Rule(){
+
 	}
 	
 	public String getId() {

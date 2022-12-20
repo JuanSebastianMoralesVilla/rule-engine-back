@@ -3,11 +3,14 @@ package com.perficient.challenge.rulesengine.unit_test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +19,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension; 
 
 import com.perficient.challenge.rulesengine.dao.implementation.RulesDaoImp;
 import com.perficient.challenge.rulesengine.model.Rule;
@@ -60,22 +65,46 @@ public class RuleDaoTest {
 	}
 	
 	@Test
-	public void findPinnedNull() {
-		Rule rule = mock(Rule.class);
-		Mockito.when(rud.findPinned()).thenReturn(null);
+	public void findPinned() {
+	
+		Rule rule = new Rule("asd1231","((first_name=='Nev')AND(amount>=100))OR(accepted==true))",1220227200L,false);
+		List<Rule> rules = List.of(rule);
 
-		assertNull(rud.findPinned());
+		Mockito.when(mongoTemplate.find(any(Query.class), Rule.class)).thenReturn(rules);
+
+		List<Rule> actualRules = rud.findPinned();
+
+		assertEquals(rules, actualRules);
+
+	}
+
+
+	@Test
+	public void findPinnedNull(){
+		List<Rule> rules = null;
+		Mockito.when(mongoTemplate.find(any(Query.class), Rule.class)).thenReturn(rules);
+		assertNull(rules);
 	}
 	
 	@Test
-	public void findPinned() {
-		var rule = new Rule("asd1231","((first_name=='Nev')AND(amount>=100))OR(accepted==true))",1220227200L,false);
-
-		System.out.println(rud.findAll().toString() + "asda");
-		System.out.println(mongoTemplate.insert(rule));
-		Mockito.when(mongoTemplate.save(rule)).thenReturn(rule);
+	public void saveRull(){
+		Rule rule = new Rule("asd1231","((first_name=='Nev')AND(amount>=100))OR(accepted==true))",1220227200L,false);
 		rud.save(rule);
-		System.out.println(rud.findAll());
+		Mockito.verify(mongoTemplate).save(rule);
+	}
+
+	@Test
+	public void saveRullNull(){
+		Rule rule = null;
+		rud.save(rule);
+		Mockito.verify(mongoTemplate).save(rule);
+	}
+
+	@Test
+	public void saveRullEmpty(){
+		Rule rule = new Rule();
+		rud.save(rule);
+		Mockito.verify(mongoTemplate).save(rule);
 	}
 	
 }
