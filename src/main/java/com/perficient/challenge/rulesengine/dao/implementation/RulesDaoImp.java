@@ -27,6 +27,10 @@ public class RulesDaoImp implements RulesDao{
 		this.mongoTemplate.save(rule);
 	}
 	
+	public void insert(Rule rule) {
+		this.mongoTemplate.insert(rule);
+	}
+	
 	@Override
 	public List<Rule> findAll() {
 		return this.mongoTemplate.findAll(Rule.class);
