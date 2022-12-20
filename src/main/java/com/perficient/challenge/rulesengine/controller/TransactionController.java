@@ -30,7 +30,7 @@ public class TransactionController {
 		
 		Optional<List<Transaction>> transactions = transactionService.findAll();
 		
-		if(transactions.isEmpty())
+		if(transactions.isPresent())
 			return new ResponseEntity<List<Transaction>>(transactions.get(), HttpStatus.OK);
 		
 		return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -39,7 +39,7 @@ public class TransactionController {
 	@PostMapping("/findByRule")
 	public ResponseEntity<List<Transaction>> findByRule(@RequestBody String rule){
 		Optional<List<Transaction>> transactions = this.transactionService.findByRule(rule);
-		if(transactions.isEmpty())
+		if(transactions.isPresent())
 			return new ResponseEntity<List<Transaction>>(transactions.get(), HttpStatus.OK);
 		
 		return new ResponseEntity<List<Transaction>>(HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class TransactionController {
 		
 		Optional<Set<String>> columns = this.transactionService.getColumns();
 		
-		if(columns.isEmpty())
+		if(columns.isPresent())
 			return new ResponseEntity<Set<String>>(columns.get(), HttpStatus.OK);
 		
 		return new ResponseEntity<Set<String>>(HttpStatus.INTERNAL_SERVER_ERROR);

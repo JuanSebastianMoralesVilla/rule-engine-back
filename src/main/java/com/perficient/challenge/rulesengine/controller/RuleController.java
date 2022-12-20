@@ -25,7 +25,7 @@ public class RuleController {
 
 		Optional<List<Rule>> rules = this.rulesService.findAll();
 
-		if (rules.isEmpty())
+		if (rules.isPresent())
 			return new ResponseEntity<List<Rule>>(rules.get(), HttpStatus.OK);
 
 		return new ResponseEntity<List<Rule>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -35,7 +35,7 @@ public class RuleController {
 	public ResponseEntity<List<Rule>> findLastProcessedRules() {
 		Optional<List<Rule>> rules = this.rulesService.findLastProcessed();
 
-		if (rules.isEmpty())
+		if (rules.isPresent())
 			return new ResponseEntity<List<Rule>>(rules.get(), HttpStatus.OK);
 
 		return new ResponseEntity<List<Rule>>(HttpStatus.INTERNAL_SERVER_ERROR);

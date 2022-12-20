@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.perficient.challenge.rulesengine.dao.interfaces.RulesDao;
 import com.perficient.challenge.rulesengine.model.Rule;
 import com.perficient.challenge.rulesengine.service.interfaces.RulesService;
 
+@Service
 public class RulesServiceImp implements RulesService{
 	
 	@Autowired
