@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.perficient.challenge.rulesengine.dao.interfaces.TransactionsDao;
 import com.perficient.challenge.rulesengine.model.Transaction;
 import com.perficient.challenge.rulesengine.processor.RuleProcessor;
+import com.perficient.challenge.rulesengine.service.interfaces.RulesService;
 import com.perficient.challenge.rulesengine.service.interfaces.TransactionService;
 
 @Service
@@ -17,6 +18,8 @@ public class TransactionServiceImp implements TransactionService{
 
 	@Autowired
 	private TransactionsDao transactionDao;
+	@Autowired
+	private RulesService ruleService;
 	@Autowired
 	private RuleProcessor ruleProcessor;
 
@@ -40,8 +43,10 @@ public class TransactionServiceImp implements TransactionService{
 		List<Transaction> transactions;
 		if(formattedQuery.isBlank()) 
 			transactions = this.transactionDao.findAll();
-		else
+		else {
 			transactions = this.transactionDao.findByRule(formattedQuery);
+			this.ruleService.save(rule);;
+		}
 	
 		return Optional.ofNullable(transactions);
 	}

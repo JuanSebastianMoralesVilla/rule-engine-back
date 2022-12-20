@@ -2,6 +2,7 @@ package com.perficient.challenge.rulesengine.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,13 @@ public class RulesServiceImp implements RulesService{
 	private RulesDao rulesDao;
 	
 	@Override
-	public void save(Rule rule) {
+	public void save(String ruleString) {
+		
+		Rule rule = new Rule();
+		rule.setId(UUID.randomUUID().toString());
+		rule.setDate(System.currentTimeMillis());
+		rule.setPinned(true);
+		rule.setRule(ruleString);
 		this.rulesDao.save(rule);
 	}
 
