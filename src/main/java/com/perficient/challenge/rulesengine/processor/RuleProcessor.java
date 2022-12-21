@@ -56,7 +56,6 @@ public class RuleProcessor {
 			return true;
 		
 		Matcher m = Pattern.compile("\\((.*?)\\)").matcher(rawRule);
-		
 		List<String> parts = new ArrayList<String>();
 		
 		while (m.find()) {
@@ -69,7 +68,8 @@ public class RuleProcessor {
 		Set<String> operators = Set.of("==", ">=", "<=", "!=");
 		Set<String> simpleOperators = Set.of("<",">");
 
-		boolean valid = true;
+		if(parts.isEmpty()) 
+			return false;
 		
 		for(String part: parts) {
 
@@ -138,7 +138,7 @@ public class RuleProcessor {
 				}
 			}
 		}
-		return valid;
+		return true;
 	}
 	
 	private void symbolsInit() {
