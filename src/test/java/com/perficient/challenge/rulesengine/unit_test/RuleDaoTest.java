@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -70,20 +72,39 @@ public class RuleDaoTest {
 		Rule rule = new Rule("asd1231","((first_name=='Nev')AND(amount>=100))OR(accepted==true))",1220227200L,false);
 		List<Rule> rules = List.of(rule);
 
-		Mockito.when(mongoTemplate.find(any(Query.class), Rule.class)).thenReturn(rules);
+		Mockito.when(mongoTemplate.find(any(Query.class), eq(Rule.class))).thenReturn(rules);
 
 		List<Rule> actualRules = rud.findPinned();
 
 		assertEquals(rules, actualRules);
 
 	}
+	
+	@Test
+	public void findLastProcessed() {
+		Rule rule = new Rule("asd1231","((first_name=='Nev')AND(amount>=100))OR(accepted==true))",1220227200L,false);
+		List<Rule> rules = List.of(rule);
+		
+		Mockito.when(mongoTemplate.find(any(Query.class), eq(Rule.class))).thenReturn(rules);
+
+		List<Rule> actualRules = rud.findLastProcessed();
+
+		assertEquals(rules, actualRules);
+	}
+	
+	@Test
+	public void findLastProcessedNull() {
+		Mockito.when(mongoTemplate.find(any(Query.class), eq(Rule.class))).thenReturn(null);
+		List<Rule> actualRules = rud.findLastProcessed();
+		assertNull(actualRules);
+	}
 
 
 	@Test
 	public void findPinnedNull(){
-		List<Rule> rules = null;
-		Mockito.when(mongoTemplate.find(any(Query.class), Rule.class)).thenReturn(rules);
-		assertNull(rules);
+		Mockito.when(mongoTemplate.find(any(Query.class), eq(Rule.class))).thenReturn(null);
+		List<Rule> actualRules = rud.findPinned();
+		assertNull(actualRules);
 	}
 	
 	@Test
