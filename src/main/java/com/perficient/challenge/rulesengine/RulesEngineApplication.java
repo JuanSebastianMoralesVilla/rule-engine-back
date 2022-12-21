@@ -33,7 +33,7 @@ public class RulesEngineApplication {
 		
 		return (args) -> {
 			
-			String ro = rule.processRule("((first_name=='Nev')AND(amount>=100))OR(accepted==true)");
+			//String ro = rule.processRule("((first_name=='Nev')AND(amount>=100))OR(accepted==true)");
 			
 			//mongo.executeCustomQuery(r);
 			
@@ -46,7 +46,8 @@ public class RulesEngineApplication {
 			rulesdao.save(r);
 			*/
 			
-			System.out.println(rulesdao.findLastProcessed());
+			//System.out.println("Valid? -> "+ rule.verifyColumn("((first_name==100)AND(amount>=100))OR(accepted==true)", "first_name"));
+			//System.out.println(rule.verifyRule("((first_name=='Nev')AND(amount>100))OR(accepted==true)"));
 		};
 	}
 	

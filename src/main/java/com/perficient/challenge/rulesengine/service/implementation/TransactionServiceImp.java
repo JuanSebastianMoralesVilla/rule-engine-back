@@ -51,10 +51,9 @@ public class TransactionServiceImp implements TransactionService{
 		
 		Optional<List<Transaction>> transactionsOptional = Optional.ofNullable(transactions);
 		
-		if(transactionsOptional.isPresent() && !transactionsOptional.get().isEmpty()) {
+		if(transactionsOptional.isPresent() && !transactionsOptional.get().isEmpty())
 			this.ruleService.save(rule);
-			System.out.println("Guardó regla");
-		}
+
 		return transactionsOptional;
 	}
 	

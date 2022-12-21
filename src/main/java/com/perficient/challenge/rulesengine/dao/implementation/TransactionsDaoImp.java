@@ -1,7 +1,9 @@
 package com.perficient.challenge.rulesengine.dao.implementation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class TransactionsDaoImp implements TransactionsDao {
 
 	@Override
 	public List<Transaction> findByRule(String customQuery) {
-		
+
 		Criteria criteria = new Criteria() {
 			@Override
 			public Document getCriteriaObject() {
@@ -59,6 +61,21 @@ public class TransactionsDaoImp implements TransactionsDao {
 	@Override
 	public List<Transaction> findAll() {
 		return this.mongoTemplate.findAll(Transaction.class);
+	}
+
+	@Override
+	public Map<String, String> getColumnsWithType() {
+
+		Query query = new Query();
+		Transaction transaction = this.mongoTemplate.findOne(query, Transaction.class);
+
+		Map<String, Object> columnTemplate = transaction.getData();
+
+		Map<String,String> columnTypes = columnTemplate.entrySet().stream()
+			     .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getClass().getSimpleName()));
+		
+		System.out.println(columnTypes);
+		return columnTypes;
 	}
 }
 

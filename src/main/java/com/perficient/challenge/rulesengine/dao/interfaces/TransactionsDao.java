@@ -1,6 +1,7 @@
 package com.perficient.challenge.rulesengine.dao.interfaces;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,4 +12,5 @@ public interface TransactionsDao {
 	public List<Transaction> findAll();
 	public List<Transaction> findByRule(String customQuery);
 	public Set<String> getColumns();
+	public Map<String, String> getColumnsWithType();
 }
